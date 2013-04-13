@@ -8,5 +8,5 @@ public class FileService {
     
     public void writeln(WriterStrategy writerStrategy, ReaderStrategy readerStrategy) {
         writerStrategy.writeln(readerStrategy.readln());
-    }
+    }    
 }

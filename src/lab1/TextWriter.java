@@ -35,9 +35,8 @@ public class TextWriter implements WriterStrategy {
 
     @Override
     public void writeln(String line) {
-        File dataFile = new File("src" + File.separatorChar + "Files"
+        File dataFile = new File(File.separatorChar + "NetBeansTemp"
                 + File.separatorChar + "ContactList.txt");
-//        File dataFile = new File(File.separatorChar + "ContactList.txt" );
         
         // This allows the data to be added to the file, not overwriting what
         // already exists
@@ -49,7 +48,7 @@ public class TextWriter implements WriterStrategy {
                  (new FileWriter(dataFile, append)));
          // Add the new record
          writer.println();
-         writer.println("Pam|Tillis|487 Westfield Way|Pewaukee|WI|53072|mydaddysingstoo@gmail.com|262-691-0098");
+         writer.println("Pam|Tillis|418 Westfield Way|Pewaukee|WI|53072|mydaddysingstoo@gmail.com|262-691-0098");
          writer.close();
          System.out.println("Wrote to file: " + dataFile.getAbsoluteFile());
 //         // List the records after the add:

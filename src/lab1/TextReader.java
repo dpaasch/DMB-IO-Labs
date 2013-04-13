@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,33 +12,29 @@ import java.io.IOException;
  */
 public class TextReader implements ReaderStrategy {
 
+    private Contact contact;
     private boolean lineReadFlag = false;
     private BufferedReader reader = null;
     private String line = null;
     private String record = "";
+    private int recordNum;
 
     @Override
     public String readln() {
-         File dataFile = new File("src" + File.separatorChar + "Files"
+        File dataFile = new File(File.separatorChar + "NetBeansTemp"
                 + File.separatorChar + "ContactList.txt");
         try {
             if (dataFile.exists()) {
                 reader = new BufferedReader(new FileReader(dataFile));
                 line = reader.readLine();
                 while (line != null) {
-                    // 1. Read all records and output to console
-                    String[] splits = line.split("\\|");
-                    System.out.println("Name: " + splits[0] + " " + splits[1]);
-                    System.out.println("Addr: " + splits[2]);
-                    System.out.println("      " + splits[3] + ", " + splits[4] + " "
-                            + splits[5]);
-                    System.out.println("eMail:" + splits[6]);
-                    System.out.println("Phone:" + splits[7]);
-                    System.out.println();
+                    getSplits();
+                    // Rigid, but if time allows I will fix...
+                    JOptionPane.showMessageDialog(null, contact.toString());
                     line = reader.readLine();  // strips out any carriage return chars
                 }
             } else {
-                System.out.println("File not found - " + dataFile);
+                JOptionPane.showMessageDialog(null, "File not found - " + dataFile);
                 line = null;
             }
         } catch (IOException ioe) {
@@ -46,16 +43,13 @@ public class TextReader implements ReaderStrategy {
                     reader.close();
                 }
             } catch (IOException ioe2) {
-                System.out.println(ioe2.getMessage());
+                JOptionPane.showMessageDialog(null, ioe2.getMessage());
             }
-            System.out.println(ioe.getMessage());
+            JOptionPane.showMessageDialog(null, ioe.getMessage());
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
-            System.out.println();
+            JOptionPane.showMessageDialog(null, oob.getMessage());
         }
-        
-        readSingleRecord();
-        
         if (lineReadFlag) {
             return null;
         } else {
@@ -64,57 +58,71 @@ public class TextReader implements ReaderStrategy {
         }
     }
 
-    public String readSingleRecord() {
-        // 2. Read just the second record an output to the console
-        File dataFile = new File("src" + File.separatorChar + "Files"
+    @Override
+    public String searchForSingleRecord(int recordNum) {
+        File dataFile = new File(File.separatorChar + "NetBeansTemp"
                 + File.separatorChar + "ContactList.txt");
-
+        int counter = 1;
         try {
             if (dataFile.exists()) {
                 reader = new BufferedReader(new FileReader(dataFile));
                 line = reader.readLine();
-                int counter = 1;
                 while (line != null) {
                     line = reader.readLine();  // strips out any carriage return chars
                     counter++;
-                    // 2. Read just the second record an output to the console
-                    if (line != null && counter == 2) {
-                        record += line;
+                    if (counter == recordNum) {
+                        getSplits();
+//                        record += line;
+                        JOptionPane.showMessageDialog(null, "Record #" + counter
+                                + "\n" + contact.toString());
                     }
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
                 }
             } else {
-                System.out.println("File not found - " + dataFile);
+                JOptionPane.showMessageDialog(null, "File not found - " + dataFile);
             }
         } catch (IOException ioe) {
             try {
                 if (reader != null) {
-                reader.close();
+                    reader.close();
                 }
             } catch (IOException ioe2) {
-                System.out.println(ioe2.getMessage());
+                JOptionPane.showMessageDialog(null, ioe2.getMessage());
             }
-            System.out.println(ioe.getMessage());
+            JOptionPane.showMessageDialog(null, ioe.getMessage());
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
-            System.out.println();
+            JOptionPane.showMessageDialog(null, oob.getMessage());
         }
-        System.out.println("Print record #2 only");
-        String[] splits = record.split("\\|");
-        System.out.println("Name: " + splits[0] + " " + splits[1]);
-        System.out.println("Addr: " + splits[2]);
-        System.out.println("      " + splits[3] + ", " + splits[4] + " "
-                + splits[5]);
-        System.out.println("eMail:" + splits[6]);
-        System.out.println("Phone:" + splits[7]);
-        System.out.println();
-        
         if (lineReadFlag) {
             return null;
         } else {
             lineReadFlag = true;
             return line;
         }
-        
+    }
+
+    public int getRecordNum() {
+        return recordNum;
+    }
+    /**
+     * Method: getSplits() - takes the data from a file in the format of: 
+     * xxx|xxx|xxx, etc. and splits it into individual fields at each |
+     * @return splits
+     */
+    public String[] getSplits() {
+        String[] splits = line.split("\\|");
+        contact = new Contact();
+        contact.setfirstName(splits[0]);
+        contact.setlastName(splits[1]);
+        contact.setAddress(splits[2]);
+        contact.setCity(splits[3]);
+        contact.setState(splits[4]);
+        contact.setZipcode(splits[5]);
+        contact.setEmail(splits[6]);
+        contact.setPhoneNum(splits[7]);
+        record += line;
+        return splits;
     }
 }
-

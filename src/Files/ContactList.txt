@@ -1,3 +1,0 @@
-Johnny|Lee|123 Main Street|Pewaukee|WI|53072|johnny.lee@gmail.com|414-555-1212
-Sara|Evans|1284 Redwing Dr|Oconomowoc|WI|53066|isingwell@gmail.com|414-555-7172
-Tim|McGraw|15065 Calhoun Rd|Brookfield|WI|53005|McGraw@gmail.com|414-491-4949

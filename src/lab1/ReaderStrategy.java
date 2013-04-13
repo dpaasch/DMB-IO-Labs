@@ -7,4 +7,6 @@ package lab1;
 public interface ReaderStrategy {
     
      public abstract String readln();
+     
+     public abstract String searchForSingleRecord(int recordNum);
 }
