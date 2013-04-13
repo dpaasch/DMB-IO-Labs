@@ -32,7 +32,7 @@ public class TextReader implements ReaderStrategy {
                     line = reader.readLine();  // strips out any carriage return chars
                     counter++;
                     System.out.println("Record #" + counter + " \n" 
-                            + contact.toString());
+                            + contact.toString() + "\n");
                 }
             } else {
                 System.out.println("File not found - " + dataFile);
@@ -66,7 +66,7 @@ public class TextReader implements ReaderStrategy {
                 if (counter == recordNum) {
                     getSplits();
                     System.out.println("Print Record #" + counter + " only\n" 
-                            + contact.toString());
+                            + contact.toString() + "\n");
                 }
                 line = reader.readLine();  // strips out any carriage return chars
                 counter++;

@@ -1,4 +1,4 @@
-package lab1;
+package lab2;
 
 /**
  *
@@ -81,10 +81,11 @@ public class Contact {
 
     @Override
     public String toString() {
-        String str = "Name:    " + firstName + " " + lastName
-                + "\nAddr:    " + address + ", " + city + ", " + state + " " + zipCode
-                + "\neMail:   " + email
-                + "\nPhone:   " + phoneNum;
+        String str = "Name:   " + firstName + " " + lastName
+                + "\nAddr:      " + address
+                + "\n                " + city + ", " + state + " " + zipCode
+                + "\neMail:      " + email
+                + "\nPhone:    " + phoneNum;
         return str;
     }
 }

@@ -32,6 +32,6 @@ public class TextWriter implements WriterStrategy {
                 System.exit(1);
             }
         }
-        System.out.println("Wrote to file: " + dataFile.getAbsoluteFile());
+//        System.out.println("Wrote to file: " + dataFile.getAbsoluteFile());
     }
 }

@@ -5,54 +5,88 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
- * Find the second record in your three record text file and make it flexible so 
- * that you can change the record number that you are search for. Then display 
- * that record by itself at the console.
+ *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
-public class TextReader {
+public class TextReader implements ReaderStrategy {
 
-    public static void main(String[] args) throws IOException {
-        // Create a Scanner Object to hold the data entered from the user
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("What record # do you want to read?");
-        int lineNumber = keyboard.nextInt();
+    private Contact contact;
+    private boolean lineReadFlag = false;
+    private BufferedReader reader = null;
+    private String line = null;
+    private String record = "";
+    private int recordNum;
 
-        File dataFile = new File(File.separatorChar + "Temp" + File.separatorChar
-                + "ContactList.txt");
-
-        BufferedReader reader = null;
-        String record = "";
+    @Override
+    public String searchForSingleRecord(int recordNum) {
+        File dataFile = new File(File.separatorChar + "NetBeansTemp"
+                + File.separatorChar + "ContactList.txt");
         int counter = 1;
         try {
-            reader = new BufferedReader(new FileReader(dataFile));
-            String line = reader.readLine();
-
-            while (line != null) {
-                line = reader.readLine();  // strips out any carriage return chars
-                counter++;
-                if (line != null && counter == lineNumber) {
-                    record += line;
+            if (dataFile.exists()) {
+                reader = new BufferedReader(new FileReader(dataFile));
+                line = reader.readLine();
+                while (line != null) {
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
+                    if (counter == recordNum) {
+                        getSplits();
+//                        record += line;
+                        JOptionPane.showMessageDialog(null, "Record #" + counter
+                                + "\n" + contact.toString());
+                    }
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "File not found - " + dataFile);
             }
         } catch (IOException ioe) {
-            System.out.println("Unable to read file - " + dataFile);
-        } finally {
             try {
-                reader.close();
-            } catch (Exception e) {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException ioe2) {
+                JOptionPane.showMessageDialog(null, ioe2.getMessage());
             }
+            JOptionPane.showMessageDialog(null, ioe.getMessage());
+            System.exit(1);
+        } catch (ArrayIndexOutOfBoundsException oob) {
+            JOptionPane.showMessageDialog(null, oob.getMessage());
         }
-        System.out.println("Printing record #" + lineNumber);
-        String[] splits = record.split("\\|");
-        System.out.println("Name: " + splits[0] + " " + splits[1]);
-        System.out.println("Addr: " + splits[2]);
-        System.out.println("      " + splits[3] + ", " + splits[4] + " "
-                + splits[5]);
-        System.out.println("eMail:" + splits[6]);
-        System.out.println("Phone:" + splits[7]);
-        System.out.println();
+        if (lineReadFlag) {
+            return null;
+        } else {
+            lineReadFlag = true;
+            return line;
+        }
+    }
+
+    public int getRecordNum() {
+        return recordNum;
+    }
+
+    /**
+     * Method: getSplits() - takes the data from a file in the format of:
+     * xxx|xxx|xxx, etc. and splits it into individual fields at each |
+     *
+     * @return splits
+     */
+    public String[] getSplits() {
+        String[] splits = line.split("\\|");
+        contact = new Contact();
+        contact.setfirstName(splits[0]);
+        contact.setlastName(splits[1]);
+        contact.setAddress(splits[2]);
+        contact.setCity(splits[3]);
+        contact.setState(splits[4]);
+        contact.setZipcode(splits[5]);
+        contact.setEmail(splits[6]);
+        contact.setPhoneNum(splits[7]);
+        record += line;
+        return splits;
     }
 }
