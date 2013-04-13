@@ -14,13 +14,11 @@ public class Startup {
         // Create new FileService object
         FileService fileService = new FileService();
 
-        // writeln delegates work to ReaderStrategy
+        // writeln delegates work to WriterStrategy
         fileService.writeln(writerStrategy, readerStrategy);
-        
-        // For lab1, part #2, find record #2
-        String record = readerStrategy.searchForSingleRecord(2);
-        // For lab1, part #3, find all records after the addition of the 4th
-        // record.
+        readerStrategy.readSingleRecord(2);
         readerStrategy.readln();
+        
+
     }
 }

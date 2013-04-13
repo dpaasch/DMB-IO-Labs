@@ -6,7 +6,12 @@ package lab1;
  */
 public class FileService {
     
-    public void writeln(WriterStrategy writerStrategy, ReaderStrategy readerStrategy) {
+    public void readln(ReaderStrategy readerStrategy){
+        readerStrategy.readln();
+    }
+    
+    public void writeln(WriterStrategy writerStrategy, ReaderStrategy readerStrategy) 
+            throws ArrayIndexOutOfBoundsException {
         writerStrategy.writeln(readerStrategy.readln());
     }    
 }

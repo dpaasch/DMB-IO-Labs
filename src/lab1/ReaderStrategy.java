@@ -8,5 +8,5 @@ public interface ReaderStrategy {
     
      public abstract String readln();
      
-     public abstract String searchForSingleRecord(int recordNum);
+     public abstract String readSingleRecord(int recordNum);
 }
