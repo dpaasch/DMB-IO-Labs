@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,12 +31,11 @@ public class TextReader implements ReaderStrategy {
                     getSplits();
                     line = reader.readLine();  // strips out any carriage return chars
                     counter++;
-                    // Rigid, but if time allows I will fix...
-                    JOptionPane.showMessageDialog(null, "Record #" + counter 
-                            + " \n" + contact.toString());
+                    System.out.println("Record #" + counter + " \n" 
+                            + contact.toString());
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "File not found - " + dataFile);
+                System.out.println("File not found - " + dataFile);
                 line = null;
             }
         } catch (IOException ioe) {
@@ -46,12 +44,12 @@ public class TextReader implements ReaderStrategy {
                     reader.close();
                 }
             } catch (IOException ioe2) {
-                JOptionPane.showMessageDialog(null, ioe2);
+                System.out.println(ioe2);
             }
-            JOptionPane.showMessageDialog(null, ioe);
+            System.out.println(ioe);
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
-            JOptionPane.showMessageDialog(null, oob);
+            System.out.println(oob);
         }
         return line;
     }
@@ -67,8 +65,8 @@ public class TextReader implements ReaderStrategy {
                 counter++;
                 if (counter == recordNum) {
                     getSplits();
-                    JOptionPane.showMessageDialog(null, "Print Record #"
-                            + counter + " only\n" + contact.toString());
+                    System.out.println("Print Record #" + counter + " only\n" 
+                            + contact.toString());
                 }
                 line = reader.readLine();  // strips out any carriage return chars
                 counter++;
@@ -79,12 +77,12 @@ public class TextReader implements ReaderStrategy {
                     reader.close();
                 }
             } catch (IOException ioe2) {
-                JOptionPane.showMessageDialog(null, ioe2);
+                System.out.println(ioe2);
             }
-            JOptionPane.showMessageDialog(null, ioe);
+            System.out.println(ioe);
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
-            JOptionPane.showMessageDialog(null, oob);
+            System.out.println(oob);
         }
         if (lineReadFlag) {
             return null;

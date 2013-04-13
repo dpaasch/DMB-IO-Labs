@@ -5,11 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.swing.JOptionPane;
 
 /**
- * 3. Add a new record by appending the file. Then read all records back in and
- * output to console to confirm that the new record can be read.
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
@@ -31,11 +28,10 @@ public class TextWriter implements WriterStrategy {
         } catch (IOException ioe) {
             if (writer != null) {
                 writer.close();
-                JOptionPane.showMessageDialog(null, ioe);
+                System.out.println(ioe);
                 System.exit(1);
             }
         }
-        JOptionPane.showMessageDialog(null, "Wrote to file: " 
-                + dataFile.getAbsoluteFile());
+        System.out.println("Wrote to file: " + dataFile.getAbsoluteFile());
     }
 }
