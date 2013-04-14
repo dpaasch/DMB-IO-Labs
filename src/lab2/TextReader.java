@@ -22,7 +22,7 @@ public class TextReader {
     private String INCORRECT_RECORD = "Incorrect record, only supposed to print"
             + " record #2.  Please try again.";
 
-    public void readSingleRecord(int recordNum) {
+    public String readSingleRecord(int recordNum) {
         int counter = 0;
         try {
             if (dataFile.exists()) {
@@ -58,6 +58,7 @@ public class TextReader {
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
+        return line;
     }
 
     /**
