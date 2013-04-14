@@ -16,7 +16,7 @@ public class Startup {
 
         // writeln delegates work to WriterStrategy
         fileService.writeln(writerStrategy, readerStrategy);
-        readerStrategy.readSingleRecord(3);
+        readerStrategy.readSingleRecord(2);
         readerStrategy.readln();
         
 
