@@ -19,22 +19,32 @@ public class TextReader {
     private String line = null;
     private String record = "";
     private int recordNum;
+    private String INCORRECT_RECORD = "Incorrect record, only supposed to print"
+            + " record #2.  Please try again.";
 
     public void readSingleRecord(int recordNum) {
-
         int counter = 0;
         try {
-            reader = new BufferedReader(new FileReader(dataFile));
-            line = reader.readLine();
-            counter++;
-            while (line != null) {
-                if (counter == recordNum) {
-                    getSplits();
-                    System.out.println("Print Record #" + counter + " only\n"
-                            + contact.toString() + "\n");
-                }
-                line = reader.readLine();  // strips out any carriage return chars
+            if (dataFile.exists()) {
+                reader = new BufferedReader(new FileReader(dataFile));
+                line = reader.readLine();
                 counter++;
+                // if record is not record #2, print an error ...
+                if (counter != 2 && recordNum != 2) {
+                    System.out.println(INCORRECT_RECORD);
+                }
+                while (line != null) {
+                    if (counter == 2 && recordNum == 2) {
+                        getSplits();
+                        System.out.println("Record #" + counter + " \n"
+                                + contact.toString() + "\n");
+                    }
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
+                }
+            } else {
+                System.out.println("File not found - " + dataFile);
+                line = null;
             }
         } catch (IOException ioe) {
             try {
@@ -45,7 +55,6 @@ public class TextReader {
                 System.out.println(ioe2);
             }
             System.out.println(ioe);
-            System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
@@ -58,7 +67,7 @@ public class TextReader {
      * @return splits
      */
     public String[] getSplits() {
-        String[] splits = line.split("\\|");;
+        String[] splits = line.split("\\|");
         contact = new Contact();
         contact.setfirstName(splits[0]);
         contact.setlastName(splits[1]);
@@ -71,7 +80,7 @@ public class TextReader {
         record += line;
         return splits;
     }
-    
+
     public static void main(String[] args) {
         TextReader reader = new TextReader();
         Scanner keyboard = new Scanner(System.in);

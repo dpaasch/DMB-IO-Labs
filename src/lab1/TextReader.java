@@ -46,7 +46,6 @@ public class TextReader implements ReaderStrategy {
                 System.out.println(ioe2);
             }
             System.out.println(ioe);
-            System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
@@ -55,20 +54,21 @@ public class TextReader implements ReaderStrategy {
 
     @Override
     public void readSingleRecord(int recordNum) {
-
         int counter = 0;
         try {
-            reader = new BufferedReader(new FileReader(dataFile));
-            line = reader.readLine();
-            counter++;
-            while (line != null) {
-                if (counter == recordNum) {
-                    getSplits();
-                    System.out.println("Print Record #" + counter + " only\n"
-                            + contact.toString() + "\n");
-                }
-                line = reader.readLine();  // strips out any carriage return chars
+            if (dataFile.exists()) {
+                reader = new BufferedReader(new FileReader(dataFile));
+                line = reader.readLine();
                 counter++;
+                while (line != null) {
+                    if (counter == recordNum) {
+                        getSplits();
+                        System.out.println("Print Record #" + counter + " only\n"
+                                + contact.toString() + "\n");
+                    }
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
+                }
             }
         } catch (IOException ioe) {
             try {
@@ -79,7 +79,6 @@ public class TextReader implements ReaderStrategy {
                 System.out.println(ioe2);
             }
             System.out.println(ioe);
-            System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
@@ -92,7 +91,7 @@ public class TextReader implements ReaderStrategy {
      * @return splits
      */
     public String[] getSplits() {
-        String[] splits = line.split("\\|");;
+        String[] splits = line.split("\\|");
         contact = new Contact();
         contact.setfirstName(splits[0]);
         contact.setlastName(splits[1]);
