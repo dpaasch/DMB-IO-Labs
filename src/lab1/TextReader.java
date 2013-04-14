@@ -14,7 +14,6 @@ public class TextReader implements ReaderStrategy {
     private File dataFile = new File(File.separatorChar + "NetBeansTemp"
             + File.separatorChar + "ContactList.txt");
     private Contact contact;
-    private boolean lineReadFlag = false;
     private BufferedReader reader = null;
     private String line = null;
     private String record = "";
@@ -31,7 +30,7 @@ public class TextReader implements ReaderStrategy {
                     getSplits();
                     line = reader.readLine();  // strips out any carriage return chars
                     counter++;
-                    System.out.println("Record #" + counter + " \n" 
+                    System.out.println("Record #" + counter + " \n"
                             + contact.toString() + "\n");
                 }
             } else {
@@ -55,17 +54,17 @@ public class TextReader implements ReaderStrategy {
     }
 
     @Override
-    public String readSingleRecord(int recordNum) {
-        int counter = 1;
+    public void readSingleRecord(int recordNum) {
+
+        int counter = 0;
         try {
             reader = new BufferedReader(new FileReader(dataFile));
             line = reader.readLine();
+            counter++;
             while (line != null) {
-                line = reader.readLine();  // strips out any carriage return chars
-                counter++;
                 if (counter == recordNum) {
                     getSplits();
-                    System.out.println("Print Record #" + counter + " only\n" 
+                    System.out.println("Print Record #" + counter + " only\n"
                             + contact.toString() + "\n");
                 }
                 line = reader.readLine();  // strips out any carriage return chars
@@ -84,15 +83,10 @@ public class TextReader implements ReaderStrategy {
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
-        if (lineReadFlag) {
-            return null;
-        } else {
-            lineReadFlag = true;
-            return line;
-        }
+//        return line;
     }
 
-    public int getRecordNum() {
+public int getRecordNum() {
         return recordNum;
     }
 
