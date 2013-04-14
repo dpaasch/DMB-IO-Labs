@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Find and display the city only in the second record in your three record text
- * file.
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
@@ -53,10 +51,6 @@ public class TextReader {
         }
     }
 
-    public int getRecordNum() {
-        return recordNum;
-    }
-
     /**
      * Method: getSplits() - takes the data from a file in the format of:
      * xxx|xxx|xxx, etc. and splits it into individual fields at each |
@@ -77,13 +71,12 @@ public class TextReader {
         record += line;
         return splits;
     }
-
+    
     public static void main(String[] args) {
         TextReader reader = new TextReader();
-
-        Scanner s = new Scanner(System.in);
-        System.out.println("Enter record # to read: ");
-        int rNum = s.nextInt();
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Enter the record # to read: ");
+        int rNum = keyboard.nextInt();
         reader.readSingleRecord(rNum);
     }
 }

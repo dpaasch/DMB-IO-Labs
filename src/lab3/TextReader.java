@@ -15,7 +15,7 @@ public class TextReader {
 
     public static void main(String[] args) throws IOException {
 
-        File dataFile = new File(File.separatorChar + "Temp" + File.separatorChar
+        File dataFile = new File(File.separatorChar + "NetBeansTemp" + File.separatorChar
                 + "ContactList.txt");
 
         BufferedReader reader = null;

@@ -83,11 +83,6 @@ public class TextReader implements ReaderStrategy {
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
-//        return line;
-    }
-
-public int getRecordNum() {
-        return recordNum;
     }
 
     /**
