@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
-public class TextReader {
+public class TextReader implements ReaderStrategy {
 
     private File dataFile = new File(File.separatorChar + "NetBeansTemp"
             + File.separatorChar + "ContactList.txt");
@@ -22,6 +22,7 @@ public class TextReader {
     private String INCORRECT_RECORD = "Incorrect record, only supposed to print"
             + " record #2.  Please try again.";
 
+    @Override
     public String readSingleRecord(int recordNum) {
         int counter = 0;
         try {
