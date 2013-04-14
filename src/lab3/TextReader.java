@@ -10,33 +10,42 @@ import java.util.Scanner;
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
-public class TextReader {
+public class TextReader implements ReaderStrategy {
 
-    private File dataFile = new File(File.separatorChar + "NetBeansTemp"
+private File dataFile = new File(File.separatorChar + "NetBeansTemp"
             + File.separatorChar + "ContactList.txt");
     private Contact contact;
     private BufferedReader reader = null;
     private String line = null;
     private String record = "";
     private int recordNum;
+    private String INCORRECT_RECORD = "Incorrect record, only supposed to print"
+            + " record #2.  Please try again.";
 
-    public void readSingleRecord(int recordNum) {
-
+    @Override
+    public String readSingleRecord(int recordNum) {
         int counter = 0;
         try {
-            reader = new BufferedReader(new FileReader(dataFile));
-            line = reader.readLine();
-            counter++;
-            while (line != null) {
+            if (dataFile.exists()) {
+                reader = new BufferedReader(new FileReader(dataFile));
                 line = reader.readLine();
                 counter++;
-                if (counter == 2) {
-                    getSplits();
-                    System.out.println("Print Record #" + counter + " City only\n"
-                            + contact.getCity() + "\n");
+                // if record is not record #2, print an error ...
+                if (counter != 2 && recordNum != 2) {
+                    System.out.println(INCORRECT_RECORD);
                 }
-                line = reader.readLine();  // strips out any carriage return chars
-                counter++;
+                while (line != null) {
+                    if (counter == 2 && recordNum == 2) {
+                        getSplits();
+                        System.out.println("Print Record #" + counter 
+                                + " City only\n" + contact.getCity() + "\n");
+                    }
+                    line = reader.readLine();  // strips out any carriage return chars
+                    counter++;
+                }
+            } else {
+                System.out.println("File not found - " + dataFile);
+                line = null;
             }
         } catch (IOException ioe) {
             try {
@@ -47,10 +56,10 @@ public class TextReader {
                 System.out.println(ioe2);
             }
             System.out.println(ioe);
-            System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
+        return line;
     }
 
     /**
@@ -60,7 +69,7 @@ public class TextReader {
      * @return splits
      */
     public String[] getSplits() {
-        String[] splits = line.split("\\|");;
+        String[] splits = line.split("\\|");
         contact = new Contact();
         contact.setfirstName(splits[0]);
         contact.setlastName(splits[1]);
@@ -76,6 +85,9 @@ public class TextReader {
 
     public static void main(String[] args) {
         TextReader reader = new TextReader();
-        reader.readSingleRecord(2);
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Enter the record # to read: ");
+        int rNum = keyboard.nextInt();
+        reader.readSingleRecord(rNum);
     }
 }
