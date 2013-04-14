@@ -53,7 +53,7 @@ public class TextReader implements ReaderStrategy {
     }
 
     @Override
-    public void readSingleRecord(int recordNum) {
+    public String readSingleRecord(int recordNum) {
         int counter = 0;
         try {
             if (dataFile.exists()) {
@@ -82,6 +82,7 @@ public class TextReader implements ReaderStrategy {
         } catch (ArrayIndexOutOfBoundsException oob) {
             System.out.println(oob);
         }
+        return line;
     }
 
     /**
