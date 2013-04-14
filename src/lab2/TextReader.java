@@ -5,44 +5,38 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 
 /**
+ * Find and display the city only in the second record in your three record text
+ * file.
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  */
-public class TextReader implements ReaderStrategy {
+public class TextReader {
 
+    private File dataFile = new File(File.separatorChar + "NetBeansTemp"
+            + File.separatorChar + "ContactList.txt");
     private Contact contact;
-    private boolean lineReadFlag = false;
     private BufferedReader reader = null;
     private String line = null;
     private String record = "";
     private int recordNum;
 
-    @Override
-    public String searchForSingleRecord(int recordNum) {
-        File dataFile = new File(File.separatorChar + "NetBeansTemp"
-                + File.separatorChar + "ContactList.txt");
-        int counter = 1;
+    public void readSingleRecord(int recordNum) {
+
+        int counter = 0;
         try {
-            if (dataFile.exists()) {
-                reader = new BufferedReader(new FileReader(dataFile));
-                line = reader.readLine();
-                while (line != null) {
-                    line = reader.readLine();  // strips out any carriage return chars
-                    counter++;
-                    if (counter == recordNum) {
-                        getSplits();
-//                        record += line;
-                        JOptionPane.showMessageDialog(null, "Record #" + counter
-                                + "\n" + contact.toString());
-                    }
-                    line = reader.readLine();  // strips out any carriage return chars
-                    counter++;
+            reader = new BufferedReader(new FileReader(dataFile));
+            line = reader.readLine();
+            counter++;
+            while (line != null) {
+                if (counter == recordNum) {
+                    getSplits();
+                    System.out.println("Print Record #" + counter + " only\n"
+                            + contact.toString() + "\n");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "File not found - " + dataFile);
+                line = reader.readLine();  // strips out any carriage return chars
+                counter++;
             }
         } catch (IOException ioe) {
             try {
@@ -50,18 +44,12 @@ public class TextReader implements ReaderStrategy {
                     reader.close();
                 }
             } catch (IOException ioe2) {
-                JOptionPane.showMessageDialog(null, ioe2.getMessage());
+                System.out.println(ioe2);
             }
-            JOptionPane.showMessageDialog(null, ioe.getMessage());
+            System.out.println(ioe);
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException oob) {
-            JOptionPane.showMessageDialog(null, oob.getMessage());
-        }
-        if (lineReadFlag) {
-            return null;
-        } else {
-            lineReadFlag = true;
-            return line;
+            System.out.println(oob);
         }
     }
 
@@ -76,7 +64,7 @@ public class TextReader implements ReaderStrategy {
      * @return splits
      */
     public String[] getSplits() {
-        String[] splits = line.split("\\|");
+        String[] splits = line.split("\\|");;
         contact = new Contact();
         contact.setfirstName(splits[0]);
         contact.setlastName(splits[1]);
@@ -88,5 +76,14 @@ public class TextReader implements ReaderStrategy {
         contact.setPhoneNum(splits[7]);
         record += line;
         return splits;
+    }
+
+    public static void main(String[] args) {
+        TextReader reader = new TextReader();
+
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter record # to read: ");
+        int rNum = s.nextInt();
+        reader.readSingleRecord(rNum);
     }
 }
