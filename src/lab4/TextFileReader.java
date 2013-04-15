@@ -2,28 +2,25 @@ package lab4;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
-/**
- *
- * @author Dawn Bykowski, dpaasch@my.wctc.edu
- */
 public class TextFileReader implements FileReaderStrategy {
 
     @Override
     public String readln() {
-    File dataFile = new File(File.separatorChar + "NetBeansTemp"
-            + File.separatorChar + "ContactList.txt");
-    BufferedReader reader = null;
-    String line = null;
+
+        File dataFile = new File(File.separatorChar + "NetBeansTemp"
+                + File.separatorChar + "ContactList.txt");
+        BufferedReader reader = null;
+        String line = null;
+
         try {
             if (dataFile.exists()) {
-                reader = new BufferedReader(new FileReader(dataFile));
+                reader = new BufferedReader(new java.io.FileReader(dataFile));
                 line = reader.readLine();
                 reader.close();
             } else {
-                System.out.println("File not found - " + dataFile);
+                System.out.println("File not found - ContactList.txt");
                 line = null;
             }
         } catch (IOException ioe) {
@@ -35,7 +32,13 @@ public class TextFileReader implements FileReaderStrategy {
                 System.out.println(ioe2.getMessage());
             }
             System.out.println(ioe.getMessage());
+            System.exit(1);  // 1 = signals program end with error
         }
         return line;
+    }
+    
+    public static void main(String[] args) {
+        TextFileReader reader = new TextFileReader();
+        System.out.println(reader.readln());
     }
 }
