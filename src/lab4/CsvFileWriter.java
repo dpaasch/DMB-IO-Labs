@@ -13,15 +13,16 @@ public class CsvFileWriter implements FileWriterStrategy {
     // CsvFileWriter variables
     private String fileName;
     // CsvFileWriter error messages
-    private String EOF_NULL_MSG = "End of File or null encountered ... Exiting";
-
-
+    private final String NPE_EX = "End of File or null encountered ... Exiting";
+    private final String IA_EX = " invalid: File name must end in .csv";
+    
     @Override
     public void writeln(String inputData) {
         // local variables
         boolean append = true;
+        getFileName(fileName);
         File dataFile = new File(File.separatorChar + "NetBeansTemp"
-                + File.separatorChar + "ContactList.csv");
+                + File.separatorChar + fileName);
         PrintWriter writer = null;
         try {
 
@@ -41,11 +42,11 @@ public class CsvFileWriter implements FileWriterStrategy {
                 writer.println(inputData);
                 System.out.println("Write successful.");
                 writer.close();
-            } else {        
+            } else {
                 throw new NullPointerException();
             }
         } catch (NullPointerException npe) {
-            System.err.println(EOF_NULL_MSG);
+            System.err.println(NPE_EX);
         } catch (IOException ioe) {
             if (writer != null) {
                 writer.close();
@@ -55,13 +56,37 @@ public class CsvFileWriter implements FileWriterStrategy {
         }
     }
 
+    public String getFileName(String fileName) {
+        // local Variable
+        String csv = ".csv";
+        try {
+            System.out.println("Enter the file name as filename.csv");
+            String fn = input.nextLine();
+            // verify file name is not blank
+            if (fn != null || fn.length() != 0) {
+                // verify file name ends with a .csv extension
+                if (!fn.endsWith(csv)) {
+                    fileName = fn;
+                    return fileName;
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            }
+            return fileName;
+
+        } catch (IllegalArgumentException iae) {
+            System.err.println(IA_EX);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         CsvFileWriter writer = new CsvFileWriter();
         writer.writeln("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072,mydaddysingstoo@gmail.com,262-691-0098");
         writer.writeln("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072,mydaddysingstoo@gmail.com,262-691-0098");
         writer.writeln("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072,mydaddysingstoo@gmail.com,262-691-0098");
         writer.writeln("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072,mydaddysingstoo@gmail.com,262-691-0098");
-                writer.writeln(null);
+        writer.writeln(null);
 //                writer.writeln("EOF");
     }
 }
