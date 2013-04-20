@@ -1,6 +1,15 @@
 package lab4;
 
-public interface FileWriterStrategy {
+import java.io.IOException;
 
-    public abstract void writeln(String line);
+public interface FileWriterStrategy {
+    
+    /**
+     * Write the input data to a specified file. 
+     */
+    public abstract void writeToFile() throws IOException;
+    
+    public abstract String getFileName();
+    
+    public abstract String getInputData();
 }

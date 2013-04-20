@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 
-public class TextFileReader implements FileReaderStrategy {
+public class CsvFileReader implements FileReaderStrategy {
 
     @Override
     public String readln() {
@@ -35,10 +35,5 @@ public class TextFileReader implements FileReaderStrategy {
             System.exit(1);  // 1 = signals program end with error
         }
         return line;
-    }
-    
-    public static void main(String[] args) {
-        TextFileReader reader = new TextFileReader();
-        System.out.println(reader.readln());
     }
 }
