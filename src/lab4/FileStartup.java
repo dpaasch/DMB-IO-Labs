@@ -4,16 +4,15 @@ public class FileStartup {
 
     public static void main(String[] args) {
         // Create the strategy objects for the textWriter & textReader
-        FileWriterStrategy writer = new CsvFileWriter_Interactive();
-        FileReaderStrategy reader = new CsvFileReader();
+        FileWriterStrategy writerStrategy = new TextFileWriter();
+        FileReaderStrategy readerStrategy = new TextFileReader();
 
         // Create new FileService object
         FileService fileService = new FileService();
-        fileService.writeToFile(writer);
 
         // writeReadInFile delegates work to FileWriterStrategy
-//        fileService.writeReadInFile(writer, reader);
-//        readerStrategy.readln();
+        fileService.writeReadInFile(writerStrategy, readerStrategy);
+        readerStrategy.readln();
 
         System.out.println("Program ended.");
     }
