@@ -4,8 +4,8 @@ public class FileStartup {
 
     public static void main(String[] args) {
         // Create the strategy objects for the textWriter & textReader
-        FileWriterStrategy writerStrategy = new TextFileWriter();
-        FileReaderStrategy readerStrategy = new TextFileReader();
+        FileWriterStrategy writerStrategy = new CsvFileWriter();
+        FileReaderStrategy readerStrategy = new CsvFileReader();
 
         // Create new FileService object
         FileService fileService = new FileService();
