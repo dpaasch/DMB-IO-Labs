@@ -5,23 +5,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
+
 /**
- * CsvFileWriter is a low-level class that is used to write input data to a 
- * comma separated value (.csv) file.
+ * TxtFileWriter is a low-level class that is used to write input data to a 
+ * text (.txt) file.
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  * @version 1.00
  */
-public class CsvFileWriter implements FileWriterStrategy {
+public class TxtFileWriter implements FileWriterStrategy {
 
     // Create a new Scanner object to hold user input
     Scanner input = new Scanner(System.in);
-    // CsvFileWriter components
+    // TxtFileWriter components
     private PrintWriter writer = null;
     private boolean append = true;
     private String fileName;
-    private String csv = ".csv";
-    // CsvFileWriter error components
-    private final String DFE_EX = " invalid: File name must end in .csv";
+    private String txt = ".txt";
+    // TxtFileWriter error components
+    private final String DFE_EX = " invalid: File name must end in .txt";
     private final String IA_EX = " invalid: File name length must be > 1 < 20";
     private final String NPE_EX = "Input Data cannot contain a null value ... Exiting";
 
@@ -36,15 +38,15 @@ public class CsvFileWriter implements FileWriterStrategy {
 //                throw new NullPointerException();
 //            } else if (fileName.length() < 1 || fileName.length() > 20) {
 //                throw new IllegalArgumentException();
-//            } else if (!fileName.endsWith(csv)) {
+//            } else if (!fileName.endsWith(txt)) {
 //                throw new DataFormatException();                
-//            }            
+//            }       
             // Open the file the user provided
 //            File dataFile = new File(File.separatorChar + "NetBeansTemp"
 //                + File.separatorChar + fileName);
             // Open the file as rigidly set here
             File dataFile = new File(File.separatorChar + "NetBeansTemp"
-                    + File.separatorChar + "ContactList_output.csv");
+                    + File.separatorChar + "ContactList_output.txt");
 
             // if the file does not exist, it will automatically be created.
             if (!dataFile.exists()) {
@@ -81,7 +83,7 @@ public class CsvFileWriter implements FileWriterStrategy {
     }
 
     public static void main(String[] args) {
-        CsvFileWriter writer = new CsvFileWriter();
+        TxtFileWriter writer = new TxtFileWriter();
         writer.writeToFile("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");

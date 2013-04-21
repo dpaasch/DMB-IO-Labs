@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * CsvFileReader is a low-level class that is used to read data from a comma
- * separated value (.csv) file.
+ * CsvFileReader is a low-level class that is used to read data from a text
+ * text (.txt) file.
  *
  * @author Dawn Bykowski, dpaasch@my.wctc.edu
  * @version 1.00
  */
-public class CsvFileReader implements FileReaderStrategy {
+public class TxtFileReader implements FileReaderStrategy {
 
     // Create a new Scanner object to hold user input
     Scanner input = new Scanner(System.in);
@@ -43,7 +43,7 @@ public class CsvFileReader implements FileReaderStrategy {
 //                + File.separatorChar + fileName);
             // Open the file as rigidly set here
             File dataFile = new File(File.separatorChar + "NetBeansTemp"
-                    + File.separatorChar + "ContactList_output.csv");
+                    + File.separatorChar + "ContactList_output.txt");
 
             // if the file does not exist, an error will be thrown
             if (!dataFile.exists()) {
@@ -83,7 +83,8 @@ public class CsvFileReader implements FileReaderStrategy {
     }
 
     public static void main(String[] args) {
-        CsvFileReader reader = new CsvFileReader();
+        TxtFileReader reader = new TxtFileReader();
         reader.readFromFile();
     }
 }
+

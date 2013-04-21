@@ -1,10 +1,18 @@
 package lab4;
 
-public class FileService {
 
-    public void writeReadInFile(FileWriterStrategy writerStrategy,
-            FileReaderStrategy readerStrategy) {
-        // Write the read in file line...
-        writerStrategy.writeln(readerStrategy.readln());
+public class FileService {
+    
+    public static void main(String[] args) {
+        FileReaderStrategy reader = new CsvFileReader();
+        FileWriterStrategy writer = new CsvFileWriter();
+        
+        writer.writeToFile("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
+        writer.writeToFile("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
+        writer.writeToFile("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
+        writer.writeToFile("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072"); 
+        
+        reader.readFromFile();
     }
+
 }
