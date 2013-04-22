@@ -4,8 +4,8 @@ package lab4;
 public class FileService {
     
     public static void main(String[] args) {
-        FileReaderStrategy reader = new CsvFileReader();
-        FileWriterStrategy writer = new CsvFileWriter();
+        FileReaderStrategy reader = new TxtFileReader();
+        FileWriterStrategy writer = new TxtFileWriter();
         
         writer.writeToFile("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");

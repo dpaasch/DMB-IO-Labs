@@ -46,7 +46,7 @@ public class TxtFileWriter implements FileWriterStrategy {
 //                + File.separatorChar + fileName);
             // Open the file as rigidly set here
             File dataFile = new File(File.separatorChar + "NetBeansTemp"
-                    + File.separatorChar + "ContactList_output.txt");
+                    + File.separatorChar + "ContactList2_output.txt");
 
             // if the file does not exist, it will automatically be created.
             if (!dataFile.exists()) {
