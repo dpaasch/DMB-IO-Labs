@@ -7,5 +7,4 @@ public interface FileReaderStrategy {
 
     public abstract String readFromFile();
 
-//    public abstract String getList(String[] s, String separator, String quote);
 }
