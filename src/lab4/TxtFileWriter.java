@@ -5,12 +5,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.zip.DataFormatException;
+//import java.util.zip.DataFormatException;
 
 /**
- * TxtFileWriter is a low-level class that is used to write input data to a 
- * text (.txt) file.
- * @author Dawn Bykowski, dpaasch@my.wctc.edu
+ * TxtFileWriter.java is a low-level class that is used to write input data to a 
+ * text (.txt) file. This program uses the FileWriterStrategy interface to 
+ * provide the method for writing to a file.  Currently, the program is rigid,
+ * as it does not allow for file path or file name input, but requires that a
+ * specific path and file name are used for locating the file being written to.
+ * It uses the inputData provided as a String and writes it into the file, 
+ * exactly as it is provided (no formatting).
+ * 
+ * @author Dawn Bykowski
  * @version 1.00
  */
 public class TxtFileWriter implements FileWriterStrategy {
@@ -23,7 +29,7 @@ public class TxtFileWriter implements FileWriterStrategy {
     private String fileName;
     private String txt = ".txt";
     // TxtFileWriter error components
-    private final String DFE_EX = " invalid: File name must end in .txt";
+//    private final String DFE_EX = " invalid: File name must end in .txt";
     private final String IA_EX = " invalid: File name length must be > 1 < 20";
     private final String NPE_EX = "Input Data cannot contain a null value ... Exiting";
 
@@ -36,14 +42,13 @@ public class TxtFileWriter implements FileWriterStrategy {
 //            fileName = input.nextLine();
 //            if (fileName == null || fileName.length() == 0) {
 //                throw new NullPointerException();
-//            } else if (fileName.length() < 1 || fileName.length() > 20) {
-//                throw new IllegalArgumentException();
 //            } else if (!fileName.endsWith(txt)) {
 //                throw new DataFormatException();                
 //            }       
             // Open the file the user provided
 //            File dataFile = new File(File.separatorChar + "NetBeansTemp"
 //                + File.separatorChar + fileName);
+            
             // Open the file as rigidly set here
             File dataFile = new File(File.separatorChar + "NetBeansTemp"
                     + File.separatorChar + "ContactList2_output.txt");
@@ -82,12 +87,16 @@ public class TxtFileWriter implements FileWriterStrategy {
         } 
     }
 
+    /**
+     * Main test Method.  Only used for testing in the individual class.
+     * @param args 
+     */
     public static void main(String[] args) {
         TxtFileWriter writer = new TxtFileWriter();
         writer.writeToFile("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
         writer.writeToFile("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072");
-        writer.writeToFile(null);
+//        writer.writeToFile(null);
     }
 }

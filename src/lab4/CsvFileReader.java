@@ -28,6 +28,11 @@ public class CsvFileReader implements FileReaderStrategy {
     private final String FNF_EX = " invalid: File not found";
     private final String NP_EX = " invalid: File name cannot be null or empty";
 
+    /**
+     * Reads the data from the file after calling the getFileName() method, 
+     * which takes user input to know what file to read from.
+     * @return data that is found within the specified file
+     */
     @Override
     public String readFromFile(){
 
@@ -95,10 +100,10 @@ public class CsvFileReader implements FileReaderStrategy {
      * from the user and verifying that the name is not null and the extension 
      * ends with .csv.
      * @return fileName : The name of the file to be read
-     * @throws DataFormatException : if the file extension is not .csv. Program
-     * will exit.
+     * @throws DataFormatException : if the file extension is not .csv, the 
+     * program will throw this error and exit.
      * @throws NullPointerException : if the file name is not populated or if 
-     * the length is = 0. Program will exit.
+     * the length is = 0, the program will throw this error and exit. 
      */
     public String getFileName() throws DataFormatException {
         // Get the file name that the data will be read from

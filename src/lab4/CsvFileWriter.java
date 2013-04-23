@@ -7,8 +7,14 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 /**
  * CsvFileWriter is a low-level class that is used to write input data to a 
- * comma separated value (.csv) file.
- * @author Dawn Bykowski, dpaasch@my.wctc.edu
+ * comma separated value (.csv) file.  This program uses the FileWriterStrategy
+ * interface to provide the method for writing to a file.  Currently, the 
+ * program is rigid, as it does not allow for file path or file name input, but
+ * requires that a specific path and file name are used for locating the file 
+ * being written to.  It uses the inputData provided as a String and writes it 
+ * into the file, exactly as it is provided (no formatting).
+ * 
+ * @author Dawn Bykowski
  * @version 1.00
  */
 public class CsvFileWriter implements FileWriterStrategy {
