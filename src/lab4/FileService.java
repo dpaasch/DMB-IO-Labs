@@ -11,6 +11,7 @@ public class FileService {
     FileReaderStrategy reader;
     FileWriterStrategy writer;
     private String inputData;
+    private String data;
     
     /**
      * Constructor used to create a reader
@@ -40,7 +41,7 @@ public class FileService {
      * @return data that is read from the file
      */
     public String readFromFile() {
-        return reader.readFromFile();
+        return data;
     }
 
 }
