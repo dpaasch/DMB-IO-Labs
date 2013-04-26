@@ -1,30 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package lab4;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
- *
- * @author tim
+ * The FileReaderStrategy is an interface, providing full abstraction.  It is
+ * responsible for providing common file read methods for the low-level classes
+ * to utilize (code reuse).  It represents the general contract for all File
+ * Strategy implementations. The return type and parameters are generic so 
+ * that future implementations can use whatever data type is necessary.
+ * @author Dawn Bykowski
+ * @version 1.00
  */
-public interface FileReaderStrategy {
-
-    public abstract String getFilePath();
-
-    /**
-     * Using a list because it is a variable-length argument that allows for a
-     * variable number of arguments.  The LinkedHashMap allows for a predictable
-     * iteration order, the order in which the data was inserted into the table.
-     * @return
-     * @throws IOException
-     */
-    List<LinkedHashMap<String, String>> readFile() throws IOException;
-
-    void setFilePath(String filePath);
+public interface FileReaderStrategy<T> {
     
+    /**
+     * T Represents any return type the user chooses, which if the user needs a
+     * different return type format, this code would not need to be changed to
+     * implement the different return type.  In this case, I am using a
+     * List<LinkedHashMap<String,String>> return.  This allows for the data
+     * to be returned in the order in which it is listed within the file.  The
+     * first string represents a unique key for the data stored.  The second
+     * string represents the data record.
+     * @return
+     * @throws IOException : Standard input/ouput error message
+     */
+    T readFile() throws IOException;
 }
