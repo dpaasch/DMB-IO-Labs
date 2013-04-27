@@ -2,41 +2,34 @@ package lab4;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
  * @author Dawn Bykowski
  * @version 1.00
  */
-public class TextFileWriter {
+public class TextFileWriter implements FileWriterStrategy {
 
     /* TextFileWriter variables */
     private String fileName;    // The name of the file being written to
     private boolean append;     // Append data (true) or overwrite (false)
-    private boolean hasHeader;  // Has a header row (true) or no header (false)
-    private List<String> inputData;
 
     /* TextFileReader components */
     private File dataFile;
-    private PrintWriter writer;
-//    private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
 
-/**
+//    private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
+    /**
      * Constructor instantiates the class by setting the fileName private
      * variable.
      *
      * @param fileName : The file name expressed as a String.
      */
-    public TextFileWriter(String fileName, boolean append) {
+    public TextFileWriter(String fileName) {
         this.fileName = fileName;
-        this.append = append;
     }
 
     /**
@@ -46,33 +39,37 @@ public class TextFileWriter {
      * modified in the dataFile variable setting. This method, calls the
      * validateDataFile() method to determine if the file name provided by the
      * user already exists. If it does not, it will create the file
-     * automatically.
+     * automatically. Type specifies the type of list to be used.
      *
      * @param inputData : The data to be written expressed as a String.
      */
+    @Override
+    public void writeToFile(List<String> data, boolean append) throws IOException {
+        // Create the PrintWriter object and set it to null
+        PrintWriter writer = null;
 
-    public void writeToFile(List<String> inputData) {
         try {
             dataFile = new File(File.separatorChar + "NetBeansTemp"
                     + File.separatorChar + fileName);
-            // create the writer object.
+            validateDataFile();
+            // create a new writer object.
             writer = new PrintWriter(
                     new BufferedWriter(
                     new java.io.FileWriter(dataFile, append)));
-            writer.println(inputData);
-            System.out.println("Write successful.");
-            writer.close();
-            // if there is no data, exit.
-            if (inputData == null) {
-                System.exit(0);
+            // Create an array list to hold the data provided prior to writing
+            List<String> inputData = new ArrayList<String>(data);
+            for (String s : inputData) {
+                writer.print(s + "\n");
+                System.out.println("Write successful.");
             }
+            writer.close();
         } catch (IOException ioe) {
+            throw ioe;
+        } finally {
             if (writer != null) {
                 writer.close();
-            } else {
-                System.err.println(ioe.getMessage());
             }
-        }                    
+        }
     }
 
     public String getFileName() {
@@ -91,53 +88,27 @@ public class TextFileWriter {
         this.append = append;
     }
 
-    public List<String> getInputData() {
-        return inputData;
-    }
-
-    public void setInputData(List<String> inputData) {
-        this.inputData = inputData;
-    }
-    
-    
-
-   public String encodeData(List<String> dataFromFile) {
-        StringBuilder formattedData = new StringBuilder();
-
-        boolean dataHeader = false; // signifies there is not a header row
-        Set<String> dataFields = null;
-//        if (dataHeader) {
-//            // takes raw data first row and if there is not a header and sets a
-//            // key value
-//            dataFields = dataFromFile.get(0).;  
-//        }        
-        // record defines a row (line) of data
-        for (int record = 0; record < dataFromFile.size(); record++) {
-            if (dataFields != null) {
-                for (String dataField : dataFields) {
-                    formattedData.append(dataField);
-                    formattedData.append(",");
-                    formattedData.append("\n");
-                }
-            }
+    /**
+     * Validates that the dataFile being requested with the getFileName() method
+     * already exists. If it doesn't, it will be created automatically.
+     *
+     * @throws IOException
+     */
+    public void validateDataFile() throws IOException {
+        if (!dataFile.exists()) {
+            System.out.println("Creating file: " + dataFile.getCanonicalPath());
+            dataFile.createNewFile();
         }
-        return formattedData.toString();
     }
 
     public static void main(String[] args) throws IOException {
-        List<String> writeStrings = new ArrayList<String>();
-        writeStrings.add("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
-        writeStrings.add("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
-        writeStrings.add("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
-        writeStrings.add("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072");
-        
         String fn = "ContactList.csv";
-        TextFileWriter writer = new TextFileWriter(fn, true);
-        writer.writeToFile(writeStrings);
-
-//                writer.writeToFile("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
-//        writer.writeToFile("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
-//        writer.writeToFile("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
-//        writer.writeToFile("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072");
+        TextFileWriter writer = new TextFileWriter(fn);
+        List<String> data = new ArrayList<String>();
+        data.add("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
+        data.add("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
+        data.add("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
+        data.add("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072");
+        writer.writeToFile(data, false);
     }
 }

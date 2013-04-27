@@ -22,10 +22,10 @@ public class TextFileReader {
 
     /* TextFileReader variables */
     private String filePath;// The path of the file being read from
+    private boolean hasHeader;
     private String FNF = "The file does not exist.";
     /* TextFileReader components */
-    private FileFormatStrategy<List<LinkedHashMap<String, String>>, 
-            List<String>> formatter;
+    private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
 
     /**
      * TextFileReaderConstructor instantiates the class by setting the filePath
@@ -46,7 +46,7 @@ public class TextFileReader {
      * @return
      * @throws IOException
      */
-    public List<LinkedHashMap<String, String>> readFile() 
+    public List<LinkedHashMap<String, String>> readFile()
             throws FileNotFoundException, IOException {
         // create an array to hold the data from the file
         List<String> dataFromFile = new ArrayList<String>();
@@ -68,6 +68,7 @@ public class TextFileReader {
                 reader.close();
             }
         }
+//        return decodeData(dataFromFile);
         return formatter.decodeData(dataFromFile);
     }
 
@@ -79,6 +80,36 @@ public class TextFileReader {
         if (filePath != null || filePath.length() != 0) {
             this.filePath = filePath;
         }
+    }
+
+    public List<LinkedHashMap<String, String>> decodeData(List<String> dataFromFile) {
+        List<LinkedHashMap<String, String>> decodedData =
+                new ArrayList<LinkedHashMap<String, String>>();
+
+        int lineCount = 0;
+        String[] header = null;
+        for (String line : dataFromFile) {
+            lineCount++;
+            String[] parts = line.split(",");
+            if (hasHeader && (lineCount == 1)) {
+                header = parts;
+            }
+            LinkedHashMap<String, String> record =
+                    new LinkedHashMap<String, String>();
+            for (int i = 0; i < parts.length; i++) {
+                if (hasHeader && (lineCount == 1)) {
+                    break;
+                } else if (hasHeader) {
+                    record.put(header[i], parts[i]);
+                } else {
+                    record.put("" + i, parts[i]);
+                }
+            }
+            if (lineCount != 1) {
+                decodedData.add(record);
+            }
+        }
+        return decodedData;
     }
 
     public static void main(String[] args) throws IOException {
