@@ -22,7 +22,6 @@ public class TextFileReader {
 
     /* TextFileReader variables */
     private String filePath;// The path of the file being read from
-    private boolean hasHeader;
     private String FNF = "The file does not exist.";
     /* TextFileReader components */
     private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
@@ -33,7 +32,7 @@ public class TextFileReader {
      *
      * @param filePath : The file path expressed as a String
      */
-    public TextFileReader(String filePath, CsvFileFormatter formatter) {
+    public TextFileReader(String filePath, FileFormatStrategy formatter) {
         this.filePath = filePath;
         this.formatter = formatter;
     }
@@ -57,7 +56,7 @@ public class TextFileReader {
                     new java.io.FileReader(filePath));
             String line = reader.readLine();  // A line of data from the file
             while (line != null) {
-                dataFromFile.add(line);
+                dataFromFile.add(line + "\n");
                 line = reader.readLine();
             }
         } catch (FileNotFoundException fnfe) {
@@ -82,35 +81,35 @@ public class TextFileReader {
         }
     }
 
-    public List<LinkedHashMap<String, String>> decodeData(List<String> dataFromFile) {
-        List<LinkedHashMap<String, String>> decodedData =
-                new ArrayList<LinkedHashMap<String, String>>();
-
-        int lineCount = 0;
-        String[] header = null;
-        for (String line : dataFromFile) {
-            lineCount++;
-            String[] parts = line.split(",");
-            if (hasHeader && (lineCount == 1)) {
-                header = parts;
-            }
-            LinkedHashMap<String, String> record =
-                    new LinkedHashMap<String, String>();
-            for (int i = 0; i < parts.length; i++) {
-                if (hasHeader && (lineCount == 1)) {
-                    break;
-                } else if (hasHeader) {
-                    record.put(header[i], parts[i]);
-                } else {
-                    record.put("" + i, parts[i]);
-                }
-            }
-            if (lineCount != 1) {
-                decodedData.add(record);
-            }
-        }
-        return decodedData;
-    }
+//    public List<LinkedHashMap<String, String>> decodeData(List<String> dataFromFile) {
+//        List<LinkedHashMap<String, String>> decodedData =
+//                new ArrayList<LinkedHashMap<String, String>>();
+//
+//        int lineCount = 0;
+//        String[] header = null;
+//        for (String line : dataFromFile) {
+//            lineCount++;
+//            String[] parts = line.split(",");
+//            if (hasHeader && (lineCount == 1)) {
+//                header = parts;
+//            }
+//            LinkedHashMap<String, String> record =
+//                    new LinkedHashMap<String, String>();
+//            for (int i = 0; i < parts.length; i++) {
+//                if (hasHeader && (lineCount == 1)) {
+//                    break;
+//                } else if (hasHeader) {
+//                    record.put(header[i], parts[i]);
+//                } else {
+//                    record.put("" + i, parts[i]);
+//                }
+//            }
+//            if (lineCount != 1) {
+//                decodedData.add(record);
+//            }
+//        }
+//        return decodedData;
+//    }
 
     public static void main(String[] args) throws IOException {
         TextFileReader reader =

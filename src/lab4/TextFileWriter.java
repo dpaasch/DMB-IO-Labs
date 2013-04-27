@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -12,16 +13,16 @@ import java.util.List;
  * @author Dawn Bykowski
  * @version 1.00
  */
-public class TextFileWriter implements FileWriterStrategy {
+public class TextFileWriter {
 
     /* TextFileWriter variables */
     private String fileName;    // The name of the file being written to
     private boolean append;     // Append data (true) or overwrite (false)
 
-    /* TextFileReader components */
+    /* TextFileWriter components */
     private File dataFile;
+    private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
 
-//    private FileFormatStrategy<List<LinkedHashMap<String, String>>, List<String>> formatter;
     /**
      * Constructor instantiates the class by setting the fileName private
      * variable.
@@ -43,8 +44,9 @@ public class TextFileWriter implements FileWriterStrategy {
      *
      * @param inputData : The data to be written expressed as a String.
      */
-    @Override
-    public void writeToFile(List<String> data, boolean append) throws IOException {
+//    @Override
+    public final String writeToFile(List<LinkedHashMap<String,String>> data)
+            throws IOException {
         // Create the PrintWriter object and set it to null
         PrintWriter writer = null;
 
@@ -56,8 +58,9 @@ public class TextFileWriter implements FileWriterStrategy {
             writer = new PrintWriter(
                     new BufferedWriter(
                     new java.io.FileWriter(dataFile, append)));
+//            LinkedHashMap<String, List> map = new LinkedHashMap<String, List>();
             // Create an array list to hold the data provided prior to writing
-            List<String> inputData = new ArrayList<String>(data);
+            List<String> inputData = new ArrayList<String>();
             for (String s : inputData) {
                 writer.print(s + "\n");
                 System.out.println("Write successful.");
@@ -70,6 +73,7 @@ public class TextFileWriter implements FileWriterStrategy {
                 writer.close();
             }
         }
+        return formatter.encodeData(data);
     }
 
     public String getFileName() {
@@ -101,14 +105,21 @@ public class TextFileWriter implements FileWriterStrategy {
         }
     }
 
+    @Override
+    public String toString() {
+        return "TextFileWriter{" + "fileName=" + fileName + ", append=" + append 
+                + ", dataFile=" + dataFile + ", formatter=" + formatter + '}';
+    }
+
     public static void main(String[] args) throws IOException {
         String fn = "ContactList.csv";
-        TextFileWriter writer = new TextFileWriter(fn);
+        TextFileWriter writer = new TextFileWriter(fn); 
         List<String> data = new ArrayList<String>();
-        data.add("Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
+        data.add(0, "Pam,Tillis,418 Westfield Way,Pewaukee,WI,53072");
         data.add("Jerry,Reed,419 Westfield Way,Pewaukee,WI,53072");
         data.add("Clay,Walker,420 Westfield Way,Pewaukee,WI,53072");
         data.add("Patsy,Cline,421 Westfield Way,Pewaukee,WI,53072");
-        writer.writeToFile(data, false);
+        writer.writeToFile(data);
+
     }
 }

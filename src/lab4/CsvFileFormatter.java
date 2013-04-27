@@ -39,8 +39,8 @@ public class CsvFileFormatter implements
             if (dataFields != null) {
                 for (String dataField : dataFields) {
                     formattedData.append(dataField);
-                    formattedData.append(",");
-                    formattedData.append("\n");
+                    formattedData.append(COMMA);
+                    formattedData.append(LF);
                 }
             }
         }
@@ -57,7 +57,7 @@ public class CsvFileFormatter implements
         String[] header = null;
         for (String line : dataFromFile) {
             lineCount++;
-            String[] parts = line.split(",");
+            String[] parts = line.split(COMMA);
             if (hasHeader && (lineCount == 1)) {
                 header = parts;
             }
